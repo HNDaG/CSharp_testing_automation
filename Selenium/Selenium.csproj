@@ -22,8 +22,4 @@
     <PackageReference Include="SpecRun.Runner" Version="3.9.31" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Steps\" />
-  </ItemGroup>
-
 </Project>
