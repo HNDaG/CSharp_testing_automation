@@ -2,6 +2,7 @@ using System;
 using TechTalk.SpecFlow;
 using OpenQA.Selenium.Chrome;
 using Pages;
+using Selenium.Hooks;
 
 namespace Selenium.Steps
 {
@@ -12,13 +13,13 @@ namespace Selenium.Steps
         public Login login = null;
         public MainPage mainPage = null;
         public TimeShiftPage timeShiftPage = null;
+        private Driver hooks = new Driver();
 
         [Given(@"we have logged in the site")]
         public void GivenWeHaveLoggenInTheSite()
         {
-            login = new Login();
-            driver = login.StartBrowser();
-            login.LoginPage(driver);
+            login = new Login(driver);
+            login.LoginPage();
         }
 
         [When(@"we go to time shift panel")]
@@ -41,10 +42,28 @@ namespace Selenium.Steps
             timeShiftPage.CheckNewRow();
         }
 
-        [Then(@"we remove row")]
-        public void ThenWeRemoveRow()
+        [When(@"we remove row")]
+        public void WhenWeRemoveRow()
         {
-            timeShiftPage.RemoveRowAndCheck();
+            timeShiftPage.RemoveRow();
+        }
+
+        [Then(@"we have row removed")]
+        public void ThenWeHaveRowRemoved()
+        {
+            timeShiftPage.CheckRemovedRow();
+        }
+
+        [BeforeScenario]
+        public void BeforeScenario()
+        {
+            driver = hooks.StartBrowser();
+        }
+
+        [AfterScenario]
+        public void AfterScenario()
+        {
+            hooks.Quit(driver);
         }
     }
 }

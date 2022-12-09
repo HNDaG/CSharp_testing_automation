@@ -65,16 +65,16 @@ namespace Pages
             wait.Until(d => driver.FindElement(By.XPath(xPathFoundRow)));
             IWebElement foundRow = driver.FindElement(By.XPath(xPathFoundRow));
 
-            foundRow.FindElement(By.XPath($"//div[contains(., '{shiftName}')]"));
-            foundRow.FindElement(By.XPath($"//div[contains(., '06:00')]"));
-            foundRow.FindElement(By.XPath($"//div[contains(., '18:00')]"));
-            foundRow.FindElement(By.XPath($"//div[contains(., '12.00')]"));
+            // Will work 
+            Assert.NotZero(foundRow.FindElements(By.XPath($"//div[contains(., '{shiftName}')]")).Count);
+            Assert.NotZero(foundRow.FindElements(By.XPath($"//div[contains(., '06:00')]")).Count);
+            Assert.NotZero(foundRow.FindElements(By.XPath($"//div[contains(., '18:00')]")).Count);
+            Assert.NotZero(foundRow.FindElements(By.XPath($"//div[contains(., '12.00')]")).Count);
 
         }
 
-        public void RemoveRowAndCheck()
+        public void RemoveRow()
         {
-
             string xPathDelete = $"//div[@class='oxd-table-row oxd-table-row--with-border' and contains(., '{shiftName}')]//i[@class='oxd-icon bi-trash']";
 
             wait.Until(d => driver.FindElement(By.XPath(xPathDelete)));
@@ -84,11 +84,18 @@ namespace Pages
             foundRow.FindElement(By.XPath("//button[@class='oxd-icon-button oxd-table-cell-action-space']")).Click();
             wait.Until(d => driver.FindElement(By.XPath("//button[contains(.,'Yes, Delete')]"))).Click();
 
+        }
+
+        public void CheckRemovedRow()
+        {
+
+            string xPathDelete = $"//div[@class='oxd-table-row oxd-table-row--with-border' and contains(., '{shiftName}')]//i[@class='oxd-icon bi-trash']";
+
+
             if (driver.FindElements(By.XPath(xPathDelete)).Count > 0)
             {
                 Assert.Fail();
             }
-            driver.Quit();
         }
     }
 }
