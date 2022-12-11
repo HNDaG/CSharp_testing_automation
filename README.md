@@ -2,13 +2,13 @@
 # Selenium Home task (variant 4) 
 
 ## Step 1
-- Copy using ```git clone --branch SeleniumHomeTask https://github.com/HNDaG/Nikita_Hohulia.git```
+- ```git clone --branch SeleniumHomeTask https://github.com/HNDaG/Nikita_Hohulia.git```
 
 ## Step 2
-- cd SeleniumHomeTask
+- ```cd SeleniumHomeTask```
 
 ## Step 3
-- dotnet build 
+- ```dotnet build```
 
 ## Step 4 
-- dotnet test
+- ```dotnet test```
