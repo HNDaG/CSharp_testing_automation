@@ -5,7 +5,10 @@
 - Copy using ```git clone --branch SeleniumHomeTask https://github.com/HNDaG/Nikita_Hohulia.git```
 
 ## Step 2
-- Open in Visual Studio
+- cd SeleniumHomeTask
 
 ## Step 3
-- Run tests using test explorer
+- dotnet build 
+
+## Step 4 
+- dotnet test
