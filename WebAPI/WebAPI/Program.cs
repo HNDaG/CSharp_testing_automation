@@ -5,19 +5,33 @@ using WebAPI.Helpers;
 using WebAPI.DataModels;
 using WebAPI.API;
 using Newtonsoft.Json.Linq;
+using System.Threading.Tasks;
+using System.IO;
+using System.Text;
 
 namespace WebAPI
 {
     internal class Program
     {
+
         static void Main(string[] args)
         {
 
-            var responseData = new DropboxApi().GetFileMetadata("/Images/CAT.jpg");
-            Metadata metadata = JsonConvert.DeserializeObject<Metadata>(responseData.ContentAsString);
-            metadata.Representation();
+            DropboxApi dropboxApi = new();
 
-            var response = new DropboxApi().DeleteFile("/Images/CAT1.jpg");
+            /*dropboxApi.UploadFile("C:/Users/nikit/Desktop/WebAPI/WebAPI/CAT.jpg", "/CAT.jpg");
+            dropboxApi.apiResponse.EnsureSuccessful();*/
+
+            dropboxApi.GetFileMetadata("/Images/CAT.jpg");
+            Metadata metadata = JsonConvert.DeserializeObject<Metadata>(dropboxApi.apiResponse.ContentAsString);
+            metadata.Representation();
+            dropboxApi.apiResponse.EnsureSuccessful();
+
+            /*dropboxApi.DeleteFile("/CAT.jpg");
+            dropboxApi.apiResponse.EnsureSuccessful();*/
+
+
         }
     }
 }
+

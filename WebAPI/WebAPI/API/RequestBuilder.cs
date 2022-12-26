@@ -13,12 +13,16 @@ namespace WebAPI.API
     {
 
         public HttpRequestMessage _request;
+        private readonly HttpClient _httpClient;
         private static Uri BaseServiceUri { get; set; }
 
-        public RequestBuilder(string url)
+        public RequestBuilder(string url, HttpClient httpClient)
         {
+            _httpClient = httpClient;
             _request = new HttpRequestMessage();
             BaseServiceUri = new Uri(url);
+
+
             WithHeader("Authorization", ConfigurationHelper.AuthorizationToken);
         }
 
@@ -56,21 +60,23 @@ namespace WebAPI.API
             return this;
         }
 
-        public RequestBuilder WithFile(byte[] fileBytes)
+        public RequestBuilder WithFile(string localFilePath, string uploadPath)
         {
-            _request.Content = new StreamContent(new MemoryStream(fileBytes));
+            byte[] fileData = File.ReadAllBytes(localFilePath);
+
+            _request.Content = new StreamContent(new MemoryStream(fileData));
             _request.Content.Headers.Add("Content-Type", "application/octet-stream");
+            _request.Content.Headers.Add("Dropbox-API-Arg", "{\"path\":\"/CAT.jpg\"}");
+            //_request.Content.Headers.Add("Content-Length", $"{fileData.Length}");
+
             return this;
         }
 
         public ApiResponse Execute()
         {
-            using (var httpClient = new HttpClient())
-            {
                 _request.Headers.Referrer = _request.RequestUri;
-                var response = httpClient.SendAsync(_request, CancellationToken.None).Result;
+                var response = _httpClient.SendAsync(_request, CancellationToken.None).Result;
                 return new ApiResponse(response);
-            }
         }
     }
 }
