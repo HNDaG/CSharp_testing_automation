@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading;
 using WebAPI.Helpers;
 using WebAPI.Extensions;
+using Newtonsoft.Json;
+using WebAPI.DataModels;
 
 namespace WebAPI.API
 {
@@ -64,11 +66,15 @@ namespace WebAPI.API
         {
             byte[] fileData = File.ReadAllBytes(localFilePath);
 
+            UploadFile uploadFile = new UploadFile();
+            uploadFile.AutoRename = true;
+            uploadFile.Mode = "add";
+            uploadFile.Mute = false;
+            uploadFile.Path = uploadPath;
+
             _request.Content = new StreamContent(new MemoryStream(fileData));
             _request.Content.Headers.Add("Content-Type", "application/octet-stream");
-            _request.Content.Headers.Add("Dropbox-API-Arg", "{\"path\":\"/CAT.jpg\"}");
-            //_request.Content.Headers.Add("Content-Length", $"{fileData.Length}");
-
+            _request.Content.Headers.Add("Dropbox-API-Arg", JsonConvert.SerializeObject(uploadFile));
             return this;
         }
 

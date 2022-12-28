@@ -12,24 +12,30 @@ namespace TestAPI.StepsDefinition
     {
         public DropboxApi dropboxApi = new DropboxApi();
 
-        public string fileNameDbx = "";
-        public string filePathDbx = "";
+        public string fileNameDbx = "CAT.jpg";
+        public string filePathDbx = "/Images/";
 
-        public string metaName = "";
+        public string localFilePath = "C:/Users/nikit/Desktop/WebAPI/WebAPI/CAT.txt";
 
+        public string fileID = "";
 
-        [Given(@"I have a file in dropbox")]
-        public void GivenIHaveAFileInDropbox()
+        [When(@"I send request to upload file")]
+        public void WhenISendRequestToUploadFile()
         {
-            fileNameDbx += "CAT.jpg";
-            filePathDbx += "/Images/";
-            filePathDbx += fileNameDbx;
+            dropboxApi.UploadFile(localFilePath, filePathDbx + fileNameDbx);
+        }
+
+        [Then(@"I should see my file uploaded")]
+        public void ThenIShouldSeeMyFileUploaded()
+        {
+            dropboxApi.apiResponse.EnsureSuccessful();
+            fileID = dropboxApi.apiResponse.Content<FileResponse>().Id;
         }
 
         [When(@"I send request to get file metadata")]
         public void WhenISendRequestToGetFileMetadata()
         {
-            dropboxApi.GetFileMetadata(filePathDbx);
+            dropboxApi.GetFileMetadata(filePathDbx+fileNameDbx);
             
         }
 
@@ -37,34 +43,22 @@ namespace TestAPI.StepsDefinition
         public void ThenIShouldSeeMyFileMetadata()
         {
             dropboxApi.apiResponse.EnsureSuccessful();
+            //Assert.That(fileID, Is.EqualTo(dropboxApi.apiResponse.Content<Metadata>().Id));
         }
 
 
         [When(@"I send request to delete file")]
         public void WhenISendRequestToDeleteFile()
         {
-            dropboxApi.DeleteFile(filePathDbx);
+            dropboxApi.DeleteFile(filePathDbx+fileNameDbx);
         }
 
         [Then(@"I should not see my file")]
         public void ThenIShouldNotSeeMyFile()
         {
             dropboxApi.apiResponse.EnsureSuccessful();
+           
         }
 
-        [Given(@"I have a file to upload")]
-        public void GivenIHaveAFileToUpload()
-        {
-        }
-
-        [When(@"I send request to upload file")]
-        public void WhenISendRequestToUploadFile()
-        {
-        }
-
-        [Then(@"I should see my file uploaded")]
-        public void ThenIShouldSeeMyFileUploaded()
-        {
-        }
     }
 }

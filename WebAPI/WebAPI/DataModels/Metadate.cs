@@ -14,9 +14,6 @@ namespace WebAPI.DataModels
         [JsonProperty("path_display")]
         public string PathDisplay { get; set; }
 
-        public void Representation()
-        {
-            Console.WriteLine($"Name = {Name}\nID = {Id}\nPath_lower = {PathLower}\nPath_display = {PathDisplay}\n");
-        }
+
     }
 }

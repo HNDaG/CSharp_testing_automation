@@ -25,10 +25,6 @@ namespace WebAPI.DataModels
         [JsonProperty("content_hash")]
         public string ContentHash { get; set; }
 
-        public void Representation()
-        {
-            Console.WriteLine(Name);
-        }
     }
 
     public class FileListResponse
