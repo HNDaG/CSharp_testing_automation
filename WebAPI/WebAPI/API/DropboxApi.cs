@@ -58,7 +58,7 @@ namespace WebAPI.API
 
         public ApiResponse UploadFile(string localFilePath, string uploadPath)
         {
-            RequestBuilder request = new RequestBuilder(ConfigurationHelper.ServiceUrl, _httpClient);
+            RequestBuilder request = new RequestBuilder(ConfigurationHelper.ContentServiceUrl, _httpClient);
 
             string url = "files/upload";
 

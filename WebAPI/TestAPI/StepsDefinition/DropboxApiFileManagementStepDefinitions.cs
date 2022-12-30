@@ -15,7 +15,7 @@ namespace TestAPI.StepsDefinition
         public string fileNameDbx = "CAT.jpg";
         public string filePathDbx = "/Images/";
 
-        public string localFilePath = "C:/Users/nikit/Desktop/WebAPI/WebAPI/CAT.txt";
+        public string localFilePath = "C:/Users/nikit/Desktop/WebAPI/WebAPI/CAT.jpg";
 
         public string fileID = "";
 
